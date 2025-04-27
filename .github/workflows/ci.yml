@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - main
+      - sven
   pull_request:
 
 permissions: write-all
@@ -26,14 +26,14 @@ jobs:
 
   # Make sure commit messages follow the conventional commits convention:
   # https://www.conventionalcommits.org
-  commitlint:
-    name: Lint Commit Messages
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - uses: wagoid/commitlint-github-action@v6.2.1
+  #commitlint:
+  #  name: Lint Commit Messages
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - uses: actions/checkout@v4
+  #      with:
+  #        fetch-depth: 0
+  #    - uses: wagoid/commitlint-github-action@v6.2.1
 
   test:
     strategy:
@@ -98,16 +98,16 @@ jobs:
       - name: Release
         uses: python-semantic-release/python-semantic-release@v9.21.0
         id: release
-        if: github.ref_name == 'main'
+        if: github.ref_name == 'sven'
         with:
           root_options: -vv
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish package distributions to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
-        if: steps.release.outputs.released == 'true'
-        with:
-          password: ${{ secrets.PYPI_TOKEN }}
+      #- name: Publish package distributions to PyPI
+      #  uses: pypa/gh-action-pypi-publish@release/v1
+      #  if: steps.release.outputs.released == 'true'
+      #  with:
+      #    password: ${{ secrets.PYPI_TOKEN }}
 
       - name: Publish package distributions to GitHub Releases
         uses: python-semantic-release/upload-to-gh-release@main
