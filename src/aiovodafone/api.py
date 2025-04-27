@@ -105,7 +105,6 @@ class VodafoneStationCommonApi(ABC):
                         return DeviceType.SERCOMM
         except ClientConnectorSSLError:
             _LOGGER.debug("Unable to login using protocol %s", protocol)
-            continue
 
         return None
 
